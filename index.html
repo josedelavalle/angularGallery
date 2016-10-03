@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>ng-workshop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="description" content="Angular Gallery" />
+  <meta name="keywords" content="AngularJS, RESTful, API" />
+  <meta name="author" content="Jose DeLavalle" />
+
+  <!-- Bring in Bootstrap css so things look nice by default -->
+  <!-- <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css"/> -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+<body ng-app="ngGallery" ng-controller="gallCtrl2">
+
+
+	<div id="wrapper">
+
+				
+		<!-- Header -->
+		<header id="header">
+			<div class="field">
+				<input id="inputBox" type="text" name="name" id="name" placeholder="Enter Location" />
+				<input ng-click="go('person')" id="personButton" class="webOnly" type="submit" value="Person" />
+				<input ng-click="go('place')" id="placeButton" class="webOnly" type="submit" value="Place" />
+				<input ng-click="go('thing')" id="thingButton" class="webOnly" type="submit" value="Thing" />
+				<input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek">
+				<input ng-click="go()"id="moreButton" class="special" type="button" value="More">
+			</div>
+						
+			<nav>
+				<ul>
+					<li><a href="#footer" class="icon fa-info-circle">About</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<div id="main">
+			
+			<article id="imgGallery" class="thumb" ng-repeat="thumb in thumbs">
+				<a href class="image" style="background-image:url('{{thumb.imgSrc}}'); outline: 0px;"><!-- <img ng-src="{{ thumb.imgSrc }}" alt="" /> --></a>
+				<h2>{{ thumb.title }}</h2>
+				<p>{{ thumb.description }}</p>
+			</article>
+		</div>
+
+		<footer id="footer" class="panel">
+			<div class="inner split">
+				<div>
+					<section>
+						<h2>Take a peek anywhere in the world</h2>
+							<p>This web app makes an AngularJS HTTP request to query Google's API for the latitude and longitude of a user's entered information.  Coordinates are then passed to Flickr's API to retrieve photos from desired location. Alternative searches filter by a photos tags and text.</p>
+					</section>
+					<section>
+						<h2>Follow me on ...</h2>
+						<ul class="icons">
+							<!-- <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li> -->
+							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+							<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
+							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						</ul>
+					</section>
+					<p class="copyright">
+						Jose DeLavalle
+					</p>
+				</div>
+				<div>
+				<section id="contact">
+					
+					<h2>Get in touch</h2>
+					<form id="contact_form">
+						<div id="contact_results"></div>
+						<div class="field half first">
+							<input type="text" name="name" id="name" placeholder="Name" required="true"/>
+						</div>
+						<div class="field half">
+							<input type="text" name="email" id="email" placeholder="Email" required="true" />
+						</div>
+						<div class="field">
+							<textarea name="message" id="message" rows="4" placeholder="Message" required="true"></textarea>
+						</div>
+						<ul class="actions">
+							<li><input type="button" id="submit_btn" value="Send" class="special" /></li>
+							<li><input type="reset" value="Reset" /></li>
+						</ul>
+					</form>
+				</section>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+
+<!-- bring in angular -->
+<!-- <script src="node_modules/angular/angular.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/galleryController.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.poptrox.min.js"></script>
+<script src="assets/js/skel.min.js"></script>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/util.js"></script>
+<!-- add livereload script so we don't have to refresh our browser on changes -->
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<script>
+	$(document).ready(function() {
+		$( function() {
+		/*
+		- how to call the plugin:
+		$( selector ).cbpQTRotator( [options] );
+		- options:
+		{
+			// default transition speed (ms)
+			speed : 700,
+			// default transition easing
+			easing : 'ease',
+			// rotator interval (ms)
+			interval : 8000
+		}
+		- destroy:
+		$( selector ).cbpQTRotator( 'destroy' );
+		*/
+
+		$( '#cbp-qtrotator' ).cbpQTRotator();
+
+
+	} );
+		$("#submit_btn").click(function() { 
+		       
+		        var proceed = true;
+
+		        //simple validation at client's end
+		        //loop through each field and we simply change border color to red for invalid fields       
+		        $("#contact_form input[required=true], #contact_form textarea[required=true]").each(function(){
+		            $(this).css('border-color',''); 
+		            if(!$.trim($(this).val())){ //if this field is empty 
+		                $(this).css('border-color','red'); //change border color to red   
+		                proceed = false; //set do not proceed flag
+		            }
+		            //check invalid email
+		            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/; 
+		            if($(this).attr("type")=="email" && !email_reg.test($.trim($(this).val()))){
+		                $(this).css('border-color','red'); //change border color to red   
+		                proceed = false; //set do not proceed flag              
+		            }   
+		        });
+		       alert(proceed);
+		        if(proceed) //everything looks good! proceed...
+		        {
+		            //get input field values data to be sent to server
+		            post_data = {
+		                'user_name'     : $('input[name=name]').val(), 
+		                'user_email'    : $('input[name=email]').val(), 
+		                'msg'           : $('textarea[name=message]').val()
+		            };
+		            
+		            //Ajax post data to server
+		            $.post('contact.php', post_data, function(response){  
+		                if(response.type == 'error'){ //load json data from server and output message     
+		                    output = '<div class="error">'+response.text+'</div>';
+		                }else{
+		                    output = '<div class="success">'+response.text+'</div>';
+		                    //reset values in all input fields
+		                    $("#contact_form  input[required=true], #contact_form textarea[required=true]").val(''); 
+		                    $("#contact_form #contact_body").slideUp(); //hide form after success
+		                }
+		                alert(response.text);
+		                $("#contact_form #contact_results").hide().html(output).slideDown();
+		            }, 'json');
+		        }
+		    });
+		    
+		    //reset previously set border colors and hide all message on .keyup()
+		    $("#contact_form  input[required=true], #contact_form textarea[required=true]").keyup(function() { 
+		        $(this).css('border-color',''); 
+		        $("#contact_results").slideUp();
+		    });
+	});
+</script>
+</body>
+</html>
