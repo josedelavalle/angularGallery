@@ -40,6 +40,7 @@ app.service("myService", function($http, $q) {
                         .replace(/"/g, "") 
                         .replace(/[\n\r]/g, '')
                         .slice(0,139);
+                    // if (!thisDesc) thisDesc = thisTitle;
 
                     if(thisImg=='undefined'){
                         thisImg="images/thumbs/01.jpg";

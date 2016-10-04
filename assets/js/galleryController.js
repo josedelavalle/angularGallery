@@ -57,7 +57,8 @@ angular
 						// remove quotes and carriage returns from inside of description
 						var thisTitle = $(this).attr('title')
 							.replace(/"/g, "")
-							.replace(/[\n\r]/g, '');
+							.replace(/[\n\r]/g, '')
+							.slice(0,69);
 						
 						// remove quotes and carriage returns from inside of description and limit to 140 characters
 						var thisDesc = $(this).find('description').text()
@@ -65,12 +66,15 @@ angular
 							.replace(/[\n\r]/g, '')
 							.slice(0,139);
 
+						// if (!thisDesc) thisDesc = thisTitle;
+
 						if(thisImg=='undefined'){
 							thisImg="images/thumbs/01.jpg";
 						}
 						$scope.newJSON += '{"imgSrc":"' + thisImg + '",';
 						$scope.newJSON += '"title":"' + thisTitle + '",';
 						$scope.newJSON += '"description":"' + thisDesc + '"},';
+
 					});
 					// console.log ($scope.newJSON);
 					
@@ -99,129 +103,3 @@ angular
 
 
 
-
-angular
-	.module('ngGallery')
-	.controller('gallCtrl', ['$scope', '$http', function ($scope, $http) {
-		var location = 'York';
-    	var apiUrl = encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + location);
-    	var imgArray = new Array(),
-			titleArray = new Array(),
-			descriptionArray = new Array(), i = 0, newJSON;
-
-    	$http.get(apiUrl).success(function(response){
-    		
-    		
-    		// $filter('filter')(lat.results, {})
-    		lat = response.results[0]['geometry']['location']['lat'];
-    		lon = response.results[0]['geometry']['location']['lng'];
-    		// console.log(lat);
-    		// console.log(lon);
-
-    		newJSON = '[';
-    		flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';
-    		apiUrl2 = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&per_page=12&extras=url_m,description&api_key=' + flckrKey + '&lat=' + lat + '&lon=' + lon;
-    		$http.get(apiUrl2).success(function(response){
-    			$(response).find('photo').each(function() {
-    				imgArray[i] = $(this).attr('url_m');
-    				titleArray[i] = $(this).attr('title');
-    				var thisDesc = $(this).find('description').text();
-    				thisDesc = thisDesc.replace(/[\n\r]/g, '');                   
-    				descriptionArray[i] = thisDesc.slice(0,139);
-    				//console.log(descriptionArray[i]);
-    				newJSON += '{"imgFull":"' + imgArray[i] + '",';
-    				// newJSON += '{"imgFull":"#",';
-    				newJSON += '"imgSrc":"' + imgArray[i] + '",';
-    				newJSON += '"title":"' + titleArray[i] + '",';
-    				newJSON += '"description":"' + descriptionArray[i] + '"},';
-    				
-    				i++;
-    				
-    			});
-    			newJSON = newJSON.substr(0, newJSON.length-1);
-    			newJSON += "]";
-    			//console.log(newJSON);
-    			let jsonObject = JSON.parse(newJSON);
-    			// console.log(jsonObject);
-    			
-    			$scope.thumbs = jsonObject;
-    			//updateMain();
-    		});
-    	});
-	
-	// $scope.thumbs = [
-	// 	{
-	// 		"imgFull": "images/fulls/01.jpg",
-	// 		"imgSrc": "images/thumbs/01.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/02.jpg",
-	// 		"imgSrc": "images/thumbs/02.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/03.jpg",
-	// 		"imgSrc": "images/thumbs/03.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/04.jpg",
-	// 		"imgSrc": "images/thumbs/04.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/05.jpg",
-	// 		"imgSrc": "images/thumbs/05.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/06.jpg",
-	// 		"imgSrc": "images/thumbs/06.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/07.jpg",
-	// 		"imgSrc": "images/thumbs/07.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/08.jpg",
-	// 		"imgSrc": "images/thumbs/08.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/09.jpg",
-	// 		"imgSrc": "images/thumbs/09.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 		"imgFull": "images/fulls/10.jpg",
-	// 		"imgSrc": "images/thumbs/10.jpg",
-	// 		"title": "",
-	// 		"description": ""
-	// 	},
-	// 	{
-	// 			"imgFull": "images/fulls/11.jpg",
-	// 			"imgSrc": "images/thumbs/11.jpg",
-	// 			"title": "",
-	// 			"description": ""
-	// 	},
-	// 	{
-	// 			"imgFull": "images/fulls/12.jpg",
-	// 			"imgSrc": "images/thumbs/12.jpg",
-	// 			"title": "",
-	// 			"description": ""
-	// 	}
-
-	// ];		
-}]);

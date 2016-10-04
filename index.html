@@ -41,8 +41,13 @@
 			
 			<article id="imgGallery" class="thumb" ng-repeat="thumb in thumbs" ng-cloak>
 				<a href class="image" style="background-image:url('{{thumb.imgSrc}}'); outline: 0px;"><!-- <img ng-src="{{ thumb.imgSrc }}" alt="" /> --></a>
-				<h2>{{ thumb.title }}</h2>
-				<p>{{ thumb.description }}</p>
+				
+				<span class="caption full-caption">
+					<div class="screenshot-caption screenshot-caption_bottom">
+						<h1>{{ thumb.title }}</h1>
+				    	<h2>{{ thumb.description }}</h2>
+				  	</div>
+				</span>
 			</article>
 		</div>
 
