@@ -214,7 +214,7 @@
 
 		// Main.
 			var $main = $('#main');
-			console.log($main.children('.thumb').length);
+			// console.log('length' + $main.find('article').length);
 			// Thumbs.
 				$main.children('#imgGallery').each(function() {
 
@@ -253,6 +253,7 @@
 				});
 				
 			// Poptrox.
+
 				$main.poptrox({
 					baseZIndex: 20000,
 					caption: function($a) {

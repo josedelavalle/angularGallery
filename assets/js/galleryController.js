@@ -1,12 +1,9 @@
-
-
-
-
 angular
 	.module('ngGallery')
 	.controller('gallCtrl2', ['$scope', '$http', 'myService', function($scope, $http, myService) {
 		$scope.$MyService = myService;
 		// $scope.thumbs = {};
+		$scope.defaultSearch = "technology";
 		$scope.page_num = 1;
 		$scope.per_page = 12;
 		$scope.newJSON = '[';
@@ -20,24 +17,22 @@ angular
 		    }
 		});
 		$scope.go = function(typeOfSearch) {
-			console.log(typeOfSearch);
+			// console.log(typeOfSearch);
 			$scope.page_num++;
-			console.log('page: ' + $scope.page_num);
-			var imgArray = new Array(),
-				titleArray = new Array(),
-				descriptionArray = new Array(), i = 0, newJSON;
+			// console.log('page: ' + $scope.page_num);
 			
 			flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';
-			var location = "";
+			var userInput = "", newJSON;
 			userInput = $('#inputBox').val();
-			if (location == "")
-			location="Paris";
+			if (userInput == null || userInput == '')
+			userInput="Computer";
+
+			// Do different types of searches based on button selected
 			switch (typeOfSearch) {
 				case "place":
 					var apiUrl = encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + userInput);
-					console.log("api = " + apiUrl);
 					
-
+					// If Place search, first get lat and long for location from Google API
 					$http.get(apiUrl).success(function(data) {
 						lat = data.results[0]['geometry']['location']['lat'];
 						lon = data.results[0]['geometry']['location']['lng'];
@@ -51,50 +46,52 @@ angular
 					apiUrl2 = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&per_page='+$scope.per_page+'&page='+$scope.page_num+'&extras=url_m,description&api_key=' + flckrKey + '&text=' + userInput;
 			}
 			
-			console.log(apiUrl2);
+			// console.log(apiUrl2);
 				
-				// console.log(apiUrl2);
+				//Get data FLICKR API
 				$http.get(apiUrl2).success(function(response){
 					$(response).find('photo').each(function() {
-						imgArray[i] = $(this).attr('url_m');
-						var thisTitle = $(this).attr('title');
-						thisTitle = thisTitle.replace(/"/g, ""); 
-						thisTitle = thisTitle.replace(/[\n\r]/g, '');
-						titleArray[i] = thisTitle;
-						var thisDesc = $(this).find('description').text();
-						thisDesc = thisDesc.replace(/"/g, ""); 
-						thisDesc = thisDesc.replace(/[\n\r]/g, '');
+						
+						var thisImg = $(this).attr('url_m');
 
-						descriptionArray[i] = thisDesc.slice(0,139);
-						//console.log(descriptionArray[i]);
-						// newJSON += '{"imgFull":"' + imgArray[i] + '",';
-						// newJSON += '{"imgFull":"#",';
-						$scope.newJSON += '{"imgSrc":"' + imgArray[i] + '",';
-						$scope.newJSON += '"title":"' + titleArray[i] + '",';
-						$scope.newJSON += '"description":"' + descriptionArray[i] + '"},';
+						// remove quotes and carriage returns from inside of description
+						var thisTitle = $(this).attr('title')
+							.replace(/"/g, "")
+							.replace(/[\n\r]/g, '');
 						
-						i++;
-						
+						// remove quotes and carriage returns from inside of description and limit to 140 characters
+						var thisDesc = $(this).find('description').text()
+							.replace(/"/g, "") 
+							.replace(/[\n\r]/g, '')
+							.slice(0,139);
+
+						if(thisImg=='undefined'){
+							thisImg="images/thumbs/01.jpg";
+						}
+						$scope.newJSON += '{"imgSrc":"' + thisImg + '",';
+						$scope.newJSON += '"title":"' + thisTitle + '",';
+						$scope.newJSON += '"description":"' + thisDesc + '"},';
 					});
-					// $scope.newJSON = $scope.newJSON.substr(0, $scope.newJSON.length-1);
-					//newJSON += "]";
-					 console.log($scope.newJSON + "]");
+					// console.log ($scope.newJSON);
+					
 					let jsonObject = JSON.parse($scope.newJSON.substr(0, $scope.newJSON.length-1) + "]");
-					// console.log(jsonObject);
+					
 					
 					$scope.thumbs = jsonObject;
+
+					//scroll down to view newly retrieved data
 					$('html, body').animate({scrollTop:$(document).height()}, 1000);
-					//deferred.resolve(jsonObject);
-					//updateMain();
-			
+					
 			});
 
 		};
 		$scope.goGet = function() {
 			var promise = myService.getImages();
 			promise.then(function(data) {
-		    	console.log(data);
-		    	$scope.thumbs = data;
+		    	// console.log(data);
+		    	let jsonObject = JSON.parse(data.substr(0, data.length-1) + "]");
+		    	$scope.thumbs = jsonObject;
+		    	$scope.newJSON = data;
 			});
 		};
 		$scope.goGet();
@@ -118,8 +115,8 @@ angular
     		// $filter('filter')(lat.results, {})
     		lat = response.results[0]['geometry']['location']['lat'];
     		lon = response.results[0]['geometry']['location']['lng'];
-    		console.log(lat);
-    		console.log(lon);
+    		// console.log(lat);
+    		// console.log(lon);
 
     		newJSON = '[';
     		flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';

@@ -22,7 +22,10 @@
 				min-width: 320px;
 			}
 		}
-
+	
+	*:focus {
+	    outline: none;
+	}
 	body {
 		background: _palette(bg);
 

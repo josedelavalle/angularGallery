@@ -22,11 +22,11 @@
 		<!-- Header -->
 		<header id="header">
 			<div class="field">
-				<input id="inputBox" type="text" name="name" id="name" placeholder="Enter Location" />
+				<input id="inputBox" type="text" name="name" id="name" placeholder="PEEK" />
 				<input ng-click="go('person')" id="personButton" class="webOnly" type="submit" value="Person" />
 				<input ng-click="go('place')" id="placeButton" class="webOnly" type="submit" value="Place" />
 				<input ng-click="go('thing')" id="thingButton" class="webOnly" type="submit" value="Thing" />
-				<input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek">
+				<!-- <input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek"> -->
 				<input ng-click="go()"id="moreButton" class="special" type="button" value="More">
 			</div>
 						
@@ -51,7 +51,7 @@
 				<div>
 					<section>
 						<h2>Take a peek anywhere in the world</h2>
-							<p>This web app makes an AngularJS HTTP request to query Google's API for the latitude and longitude of a user's entered information.  Coordinates are then passed to Flickr's API to retrieve photos from desired location. Alternative searches filter by a photos tags and text.</p>
+							<p>This AngularJS web app makes HTTP request to query Google's API for the latitude and longitude of a user's entered location.  Coordinates are then passed to Flickr's API to retrieve photos from desired location. Alternative searches filter by a photo's tags and text.</p>
 					</section>
 					<section>
 						<h2>Follow me on ...</h2>
@@ -59,17 +59,19 @@
 							<!-- <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
 							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li> -->
-							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://github.com/josedelavalle/angularGallery" class="icon fa-github"><span class="label">GitHub</span></a></li>
 							<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
-							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://www.linkedin.com/in/jose-delavalle-49aa7411a" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="http://www.indeed.com/r/Jose-DeLavalle/a640d41721993815" class="icon fa-user"><span class="label">Indeed</span></a></li>
+							<li><a href="mailto:me@slickwebstudio.com" class="icon fa-envelope"><span class="label">Mail</span></a></li>
 						</ul>
 					</section>
 					<p class="copyright">
-						Jose DeLavalle
+						Jose DeLavalle&nbsp;&nbsp;&nbsp;<a href="slickwebstudio.com" class="icon fa-globe">&nbsp;Slick Web Studio</a>
 					</p>
 				</div>
 				<div>
-				<section id="contact">
+				<!-- <section id="contact">
 					
 					<h2>Get in touch</h2>
 					<form id="contact_form">
@@ -85,10 +87,10 @@
 						</div>
 						<ul class="actions">
 							<li><input type="button" id="submit_btn" value="Send" class="special" /></li>
-							<li><input type="reset" value="Reset" /></li>
+							<li><input id="reset_btn" type="reset" value="Reset" /></li>
 						</ul>
 					</form>
-				</section>
+				</section> -->
 				</div>
 			</div>
 		</footer>
@@ -111,27 +113,11 @@
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 <script>
 	$(document).ready(function() {
-		$( function() {
-		/*
-		- how to call the plugin:
-		$( selector ).cbpQTRotator( [options] );
-		- options:
-		{
-			// default transition speed (ms)
-			speed : 700,
-			// default transition easing
-			easing : 'ease',
-			// rotator interval (ms)
-			interval : 8000
-		}
-		- destroy:
-		$( selector ).cbpQTRotator( 'destroy' );
-		*/
-
-		$( '#cbp-qtrotator' ).cbpQTRotator();
-
-
-	} );
+		$("#reset_btn").click(function() {
+			$("#contact_form input[required=true], #contact_form textarea[required=true]").each(function(){
+				$(this).css('border-color','gray');
+			});
+		});
 		$("#submit_btn").click(function() { 
 		       
 		        var proceed = true;
@@ -151,7 +137,7 @@
 		                proceed = false; //set do not proceed flag              
 		            }   
 		        });
-		       alert(proceed);
+		        console.log(proceed);
 		        if(proceed) //everything looks good! proceed...
 		        {
 		            //get input field values data to be sent to server

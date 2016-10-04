@@ -102,6 +102,9 @@ body {
   html, body {
     min-width: 320px; } }
 
+*:focus {
+  outline: none; }
+
 body {
   background: #242629; }
   body.loading *, body.loading *:before, body.loading *:after {
@@ -452,8 +455,7 @@ textarea {
     display: none; }
 
 #inputBox {
-  width: auto !important;
-  border: 0 !important; }
+  width: auto !important; }
 
 input[type="text"],
 input[type="password"],
