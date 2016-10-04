@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>ng-workshop</title>
+  <title>Angular Gallery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <meta name="description" content="Angular Gallery" />
   <meta name="keywords" content="AngularJS, RESTful, API" />
@@ -39,7 +39,7 @@
 
 		<div id="main">
 			
-			<article id="imgGallery" class="thumb" ng-repeat="thumb in thumbs">
+			<article id="imgGallery" class="thumb" ng-repeat="thumb in thumbs" ng-cloak>
 				<a href class="image" style="background-image:url('{{thumb.imgSrc}}'); outline: 0px;"><!-- <img ng-src="{{ thumb.imgSrc }}" alt="" /> --></a>
 				<h2>{{ thumb.title }}</h2>
 				<p>{{ thumb.description }}</p>
