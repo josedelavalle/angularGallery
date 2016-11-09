@@ -27,7 +27,7 @@
 				<input ng-click="go('place')" id="placeButton" class="webOnly" type="submit" value="Place" />
 				<input ng-click="go('thing')" id="thingButton" class="webOnly" type="submit" value="Thing" />
 				<!-- <input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek"> -->
-				<input ng-click="go()"id="moreButton" class="special" type="button" value="More">
+				<input ng-click="go()" id="moreButton" class="special" type="button" value="More">
 			</div>
 						
 			<nav>
@@ -105,75 +105,18 @@
 
 <!-- bring in angular -->
 <!-- <script src="node_modules/angular/angular.js"></script> -->
+
+<script data-main="assets/js/main" src="/node_modules/requirejs/require.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/galleryController.js"></script>
 <script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.poptrox.min.js"></script>
 <script src="assets/js/skel.min.js"></script>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/gallery.js"></script>
 <script src="assets/js/util.js"></script>
-<!-- add livereload script so we don't have to refresh our browser on changes -->
-<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-<script>
-	$(document).ready(function() {
-		$("#reset_btn").click(function() {
-			$("#contact_form input[required=true], #contact_form textarea[required=true]").each(function(){
-				$(this).css('border-color','gray');
-			});
-		});
-		$("#submit_btn").click(function() { 
-		       
-		        var proceed = true;
 
-		        //simple validation at client's end
-		        //loop through each field and we simply change border color to red for invalid fields       
-		        $("#contact_form input[required=true], #contact_form textarea[required=true]").each(function(){
-		            $(this).css('border-color',''); 
-		            if(!$.trim($(this).val())){ //if this field is empty 
-		                $(this).css('border-color','red'); //change border color to red   
-		                proceed = false; //set do not proceed flag
-		            }
-		            //check invalid email
-		            var email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/; 
-		            if($(this).attr("type")=="email" && !email_reg.test($.trim($(this).val()))){
-		                $(this).css('border-color','red'); //change border color to red   
-		                proceed = false; //set do not proceed flag              
-		            }   
-		        });
-		        console.log(proceed);
-		        if(proceed) //everything looks good! proceed...
-		        {
-		            //get input field values data to be sent to server
-		            post_data = {
-		                'user_name'     : $('input[name=name]').val(), 
-		                'user_email'    : $('input[name=email]').val(), 
-		                'msg'           : $('textarea[name=message]').val()
-		            };
-		            
-		            //Ajax post data to server
-		            $.post('contact.php', post_data, function(response){  
-		                if(response.type == 'error'){ //load json data from server and output message     
-		                    output = '<div class="error">'+response.text+'</div>';
-		                }else{
-		                    output = '<div class="success">'+response.text+'</div>';
-		                    //reset values in all input fields
-		                    $("#contact_form  input[required=true], #contact_form textarea[required=true]").val(''); 
-		                    $("#contact_form #contact_body").slideUp(); //hide form after success
-		                }
-		                alert(response.text);
-		                $("#contact_form #contact_results").hide().html(output).slideDown();
-		            }, 'json');
-		        }
-		    });
-		    
-		    //reset previously set border colors and hide all message on .keyup()
-		    $("#contact_form  input[required=true], #contact_form textarea[required=true]").keyup(function() { 
-		        $(this).css('border-color',''); 
-		        $("#contact_results").slideUp();
-		    });
-	});
-</script>
+
 </body>
 </html>
