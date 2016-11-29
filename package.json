@@ -18,7 +18,7 @@
     "gulp-uglify": "^2.0.0"
   },
   "scripts": {
-    "start": "http-server -c-1 > /dev/null & node_modules/.bin/livereload . -i 200 > /dev/null"
+    "dev": "lite-server"
   },
   "repository": {
     "type": "git",

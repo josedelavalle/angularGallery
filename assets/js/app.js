@@ -1,8 +1,8 @@
 var app = angular.module('ngGallery',[]);
 var page_num = 1;
-defaultSearch = "technology";
+defaultSearch = "Princeton";
 app.service("myService", function($http, $q) {
-	
+
 
 	var apiUrl = encodeURI('http://maps.googleapis.com/maps/api/geocode/json?address=' + defaultSearch);
 	// console.log(apiUrl);
@@ -34,10 +34,10 @@ app.service("myService", function($http, $q) {
                     var thisTitle = $(this).attr('title')
                         .replace(/"/g, "")
                         .replace(/[\n\r]/g, '');
-                    
+
                     // remove quotes and carriage returns from inside of description and limit to 140 characters
                     var thisDesc = $(this).find('description').text()
-                        .replace(/"/g, "") 
+                        .replace(/"/g, "")
                         .replace(/[\n\r]/g, '')
                         .slice(0,139);
                     // if (!thisDesc) thisDesc = thisTitle;
@@ -49,11 +49,11 @@ app.service("myService", function($http, $q) {
                     newJSON += '"title":"' + thisTitle + '",';
                     newJSON += '"description":"' + thisDesc + '"},';
                 }
-        		
+
         	});
-        	
+
         	// console.log(jsonObject);
-        	
+
         	// $scope.thumbs = jsonObject;
         	deferred.resolve(newJSON);
         	//updateMain();
@@ -61,7 +61,7 @@ app.service("myService", function($http, $q) {
 
 
 
-        
+
     });
     this.getImages = function(){
         return deferred.promise;
@@ -69,4 +69,3 @@ app.service("myService", function($http, $q) {
 
 
 });
-

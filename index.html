@@ -18,7 +18,7 @@
 
 	<div id="wrapper">
 
-				
+
 		<!-- Header -->
 		<header id="header">
 			<div class="field">
@@ -29,7 +29,7 @@
 				<!-- <input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek"> -->
 				<input ng-click="go()" id="moreButton" class="special" type="button" value="More">
 			</div>
-						
+
 			<nav>
 				<ul>
 					<li><a href="#footer" class="icon fa-info-circle">About</a></li>
@@ -38,10 +38,10 @@
 		</header>
 
 		<div id="main">
-			
+
 			<article id="imgGallery" class="thumb" ng-repeat="thumb in thumbs" ng-cloak>
 				<a href class="image" style="background-image:url('{{thumb.imgSrc}}'); outline: 0px;"><!-- <img ng-src="{{ thumb.imgSrc }}" alt="" /> --></a>
-				
+
 				<span class="caption full-caption">
 					<div class="screenshot-caption screenshot-caption_bottom">
 						<h1>{{ thumb.title }}</h1>
@@ -61,10 +61,11 @@
 					<section>
 						<h2>Follow me on ...</h2>
 						<ul class="icons">
-							<!-- <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<!--
 							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
 							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li> -->
 							<li><a href="https://github.com/josedelavalle/angularGallery" class="icon fa-github"><span class="label">GitHub</span></a></li>
+              <li><a href="http://twitter.com/slickwebstudio" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 							<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
 							<li><a href="https://www.linkedin.com/in/jose-delavalle-49aa7411a" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
 							<li><a href="http://www.indeed.com/r/Jose-DeLavalle/a640d41721993815" class="icon fa-user"><span class="label">Indeed</span></a></li>
@@ -72,12 +73,12 @@
 						</ul>
 					</section>
 					<p class="copyright">
-						Jose DeLavalle&nbsp;&nbsp;&nbsp;<a href="slickwebstudio.com" class="icon fa-globe">&nbsp;Slick Web Studio</a>
+						<a class="icon" href="http://josedelavalle.com">Jose DeLavalle</a>&nbsp;&nbsp;&nbsp;<a href="http://slickwebstudio.com" class="icon fa-globe">&nbsp;Slick Web Studio</a>
 					</p>
 				</div>
 				<div>
 				<!-- <section id="contact">
-					
+
 					<h2>Get in touch</h2>
 					<form id="contact_form">
 						<div id="contact_results"></div>
@@ -101,12 +102,6 @@
 		</footer>
 
 	</div>
-
-
-<!-- bring in angular -->
-<!-- <script src="node_modules/angular/angular.js"></script> -->
-
-<script data-main="assets/js/main" src="/node_modules/requirejs/require.js"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <script src="assets/js/app.js"></script>
