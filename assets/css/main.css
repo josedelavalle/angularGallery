@@ -1147,7 +1147,7 @@ body {
     height: 100%;
     background: rgba(39, 40, 44, 0.9);
     color: #ffffff;
-    z-index: 9000;
+    z-index: 2;
     padding: 10px;
     -webkit-transition: all 0.5s ease-out;
     -moz-transition: all 0.5s ease-out;
@@ -1277,7 +1277,7 @@ body {
     -webkit-transition-delay: 2.525s;
     -ms-transition-delay: 2.525s;
     transition-delay: 2.525s;
-    height: calc(40vh - 2em);
+    height: calc(100vh / ($rows + $pad));
     min-height: 20em;
     width: 25%; }
     #main .thumb:nth-child(1) {
@@ -1346,7 +1346,7 @@ body {
       -webkit-transition-delay: 2.075s;
       -ms-transition-delay: 2.075s;
       transition-delay: 2.075s;
-      height: calc(40vh - 2em);
+      height: calc(100vh / ($rows + $pad));
       min-height: 20em;
       width: 33.33333%; }
       #main .thumb:nth-child(1) {
@@ -1400,7 +1400,7 @@ body {
       -webkit-transition-delay: 1.625s;
       -ms-transition-delay: 1.625s;
       transition-delay: 1.625s;
-      height: calc(40vh - 2em);
+      height: calc(100vh / ($rows + $pad));
       min-height: 20em;
       width: 50%; }
       #main .thumb:nth-child(1) {
@@ -1439,7 +1439,7 @@ body {
       -webkit-transition-delay: 2.075s;
       -ms-transition-delay: 2.075s;
       transition-delay: 2.075s;
-      height: calc(28.57143vh - 1.33333em);
+      height: calc(100vh / ($rows + $pad));
       min-height: 18em;
       width: 50%; }
       #main .thumb:nth-child(1) {
@@ -1493,7 +1493,7 @@ body {
       -webkit-transition-delay: 1.175s;
       -ms-transition-delay: 1.175s;
       transition-delay: 1.175s;
-      height: calc(40vh - 2em);
+      height: calc(100vh / ($rows + $pad));
       min-height: 18em;
       width: 100%; }
       #main .thumb:nth-child(1) {
@@ -1518,3 +1518,46 @@ body {
   font-size: 0.9em; }
   #footer .copyright a {
     color: inherit; }
+
+.modal-body {
+  padding: 0;
+  height: 100%; }
+
+#searchButton {
+  height: auto !important;
+  line-height: 1em;
+  white-space: normal;
+  padding: 20px 30px; }
+
+.modal-content {
+  height: 100%; }
+
+#mapContainer {
+  height: 100%; }
+  #mapContainer #map {
+    min-height: 100%; }
+
+.userLocation {
+  padding-left: 10px;
+  padding-top: 5px;
+  font-size: 1.7em; }
+
+.panel {
+  margin-bottom: 0 !important; }
+
+.modal-dialog {
+  display: inline-block;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  z-index: 3;
+  border: none; }
+  .modal-dialog img {
+    margin: auto; }
+
+.modal-content {
+  text-align: center; }

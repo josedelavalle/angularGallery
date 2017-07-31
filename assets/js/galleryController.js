@@ -1,12 +1,62 @@
-angular
-	.module('ngGallery')
-	.controller('gallCtrl2', ['$scope', '$http', 'myService', function($scope, $http, myService) {
-		$scope.$MyService = myService;
+var app = angular
+	.module('ngGallery', ['ngMap', 'ui.bootstrap'])
+	.factory("galleryFactory", ['$http', '$window', '$q', function($http, $window, $q) {
+	    return {
+	        getUserLocation: function() {
+	            var deferred = $q.defer();
+
+	            if (!$window.navigator.geolocation) {
+	                deferred.reject('Geolocation not supported.');
+	            } else {
+	                $window.navigator.geolocation.getCurrentPosition(
+	                    function (position) {
+	                        deferred.resolve(position);
+	                    },
+	                    function (err) {
+	                        deferred.reject(err);
+	                    });
+	            }
+
+	            return deferred.promise;
+	        },
+	        getUserLocationBackup: function() {
+	            return $http.get('http://ipinfo.io/json');
+	        },
+	        reverseGecode: function(loc) {
+	            return $http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + loc + '&components=administrative_area&key=AIzaSyAFzBg6EWivP2e2GR0DmXdosJKqJylV9AQ');
+	        },
+	        geocode: function(searchAddress) {
+	            return $http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + searchAddress);
+	        },
+	        getImagesByLoc: function(page_num, lat, lon) {
+	            var flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';
+	            return $http.get('https://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1&per_page=12&page='+page_num+'&extras=url_m,description&api_key=' + flckrKey + '&lat=' + lat + '&lon=' + lon);
+	        },
+	        getImagesByTerm: function(page_num, searchTerm) {
+	            var flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';
+	            return $http.get('https://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&nojsoncallback=1&per_page=12&page='+page_num+'&extras=url_m,description&api_key=' + flckrKey + '&text=' + searchTerm);
+	        }
+	    };
+	}])
+	.controller('modalController', ['$scope', '$uibModalInstance', 'items', 'currentIndex', function($scope, $uibModalInstance, items, currentIndex) {
+		console.log('modal controller', items);
+		$scope.items = items;
+		$scope.currentIndex = currentIndex;
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss();
+		};
+	}])
+	.controller('galleryController', ['$scope', '$http', 'galleryFactory', 'NgMap', '$uibModal', function($scope, $http, galleryFactory, NgMap, $uibModal) {
+		
 		// $scope.thumbs = {};
 		$scope.defaultSearch = "technology";
 		$scope.page_num = 1;
 		$scope.per_page = 12;
 		$scope.newJSON = '[';
+		$scope.userLocation = {};
+		$scope.thumbs = [];
+
 		$('#inputBox').bind("enterKey",function(e){
 		   $scope.go('person');
 		});
@@ -16,16 +66,172 @@ angular
 		        $(this).trigger("enterKey");
 		    }
 		});
-		$scope.go = function(typeOfSearch) {
-			// console.log(typeOfSearch);
+
+		$scope.openModal = function (ndx) {
+			console.log('openModal');
+			var modalInstance = $uibModal.open({
+      		  templateUrl: '/modal.html',
+		      controller: 'modalController',
+		      windowClass: 'large-Modal',
+		      resolve: {
+		        items: function () {
+		          return $scope.thumbs;
+		        },
+		        currentIndex: function () {
+		        	return ndx;
+		        }
+		      }
+			});
+		};
+		$scope.searching = true;
+
+		$scope.goGetUserLocation = function() {
+			galleryFactory.getUserLocation().then(function(res) {
+				console.log('got user location', res);
+				var usercoords = res.coords.latitude + "," + res.coords.longitude;
+				$scope.userLocation.lat = res.coords.latitude;
+				$scope.userLocation.lon = res.coords.longitude;
+
+				doReverseGeocode(usercoords);
+				getImagesByLoc($scope.page_num, res.coords.latitude, res.coords.longitude);
+			}).catch(function(e) {
+				console.log('error getting user location', e);
+				pdFactory.getUserLocationBackup().then(function(res) {
+					console.log('got user location backup', res);
+					var usercoords = res.data.loc;
+					$scope.userCoords = usercoords;
+					doReverseGeocode(usercoords);
+					getImagesByLoc($scope.userLocation.address);
+				}).catch(function(e) {
+					console.log('error getting user location backup', e);
+				});
+			});
+		}
+		$scope.goGetUserLocation();
+
+		function doReverseGeocode(data) {
+			galleryFactory.reverseGecode(data).then(function(res) {
+				console.log('reversegeocode', res);
+				var ret = parseGeocode(res);
+				return ret;
+				//var loc = $scope.userCoords.split(',');
+				
+			}).catch(function(e) {
+				console.log('error reverse geocoding', e);
+			});
+		}
+
+		function parseGeocode(res) {
+			for (var i = 0; i < res.data.results[0].address_components.length; i++) {
+	            var component = res.data.results[0].address_components[i];
+	            if (component.types[0] == "locality") {
+	                var usercity = component.long_name;
+	            }
+	            if (component.types[0] == "administrative_area_level_1") {
+	                var userstate = component.long_name;
+	            }
+	            
+	        }
+	        if (usercity) {
+	            $scope.userLocation.address = usercity;
+	        } else {
+	            $scope.userLocation.address = "";
+	        }
+	        if (userstate) {
+	            if (usercity) {
+	                $scope.userLocation.address += ", ";
+	            }
+	            $scope.userLocation.address += userstate;
+	        }
+
+	        return $scope.userLocation.address;
+		}
+
+		$scope.$watch('userLocation.address', function(data) {
+			console.log('new loc: ', data);
+			$scope.searchTerm = data;
+		});
+
+		var getImagesByTerm = function (page_num, searchTerm) {
+			console.log('search for ', searchTerm);
+			galleryFactory.getImagesByTerm(page_num, searchTerm).then(function(res) {
+				console.log('got images', res.data);
+				for (var i = 0; i < res.data.photos.photo.length; i++) {
+					var item = res.data.photos.photo[i];
+					$scope.thumbs.push(item);
+				}
+				$scope.searching = false;
+
+			}).catch(function (e) {
+				console.log('error getting images, e');
+			});
+		};
+
+		var getImagesByLoc = function (page_num, lat, lon) {
+			console.log('getting images', Date());
+			galleryFactory.getImagesByLoc(page_num, lat, lon).then(function(res) {
+				console.log('got images', res.data);
+				for (var i = 0; i < res.data.photos.photo.length; i++) {
+					var item = res.data.photos.photo[i];
+					$scope.thumbs.push(item);
+				}
+				$scope.searching = false;
+
+			}).catch(function (e) {
+				console.log('error getting images, e');
+			});
+		};
+
+		$scope.clear = function() {
+			$scope.thumbs = [];
+			$scope.page_num = 1;
+		};
+
+		$scope.go = function () {
+			$('#closer').click();
+			$scope.searching = true;
+			console.log($scope.searchTerm, $scope.userLocation.address);
+			if ($scope.searchTerm !== $scope.userLocation.address) {
+				getImagesByTerm(++$scope.page_num, $scope.searchTerm);
+			} else {
+				var lat = $scope.userLocation.lat;
+				var lon = $scope.userLocation.lon;
+				getImagesByLoc(++$scope.page_num, lat, lon);
+			}
+			
+			//scroll down to view newly retrieved data
+			$('html, body').animate({scrollTop:$(document).height()}, 1000);
+		};
+
+		NgMap.getMap().then(function(map) {
+			$scope.map = map;
+			console.log(map);
+	    	console.log(map.getCenter());
+		    console.log('markers', map.markers);
+		    console.log('shapes', map.shapes);
+		});
+
+		$scope.getCurrentLocation = function(e) {
+			$scope.pos = this.getPosition();
+     		console.log($scope.pos.lat(),$scope.pos.lng());
+		    $scope.userLocation.lat = e.latLng.lat();
+		    $scope.userLocation.lon = e.latLng.lng();
+		    $scope.searchTerm = doReverseGeocode($scope.pos.lat() + ',' + $scope.pos.lng());
+		    
+		};
+
+		$scope.goold = function(typeOfSearch) {
+			console.log(typeOfSearch);
 			$scope.page_num++;
 			// console.log('page: ' + $scope.page_num);
 			
 			flckrKey = 'b30f2299fbe2a166e4beb4da659c792d';
 			var userInput = "", newJSON;
 			userInput = $('#inputBox').val();
-			if (userInput == null || userInput == '')
-			userInput="Computer";
+			if (!userInput) {
+				userInput = $scope.defaultSearch;
+			}
+			
 
 			// Do different types of searches based on button selected
 			switch (typeOfSearch) {
@@ -50,6 +256,7 @@ angular
 				
 				//Get data FLICKR API
 				$http.get(apiUrl2).success(function(response){
+					//console.log('got images', response);
 					$(response).find('photo').each(function() {
 						
 						var thisImg = $(this).attr('url_m');
@@ -89,16 +296,17 @@ angular
 			});
 
 		};
-		$scope.goGet = function() {
-			var promise = myService.getImages();
-			promise.then(function(data) {
-		    	// console.log(data);
-		    	let jsonObject = JSON.parse(data.substr(0, data.length-1) + "]");
-		    	$scope.thumbs = jsonObject;
-		    	$scope.newJSON = data;
-			});
-		};
-		$scope.goGet();
+		// $scope.goGet = function(search) {
+		// 	var promise = myService.getImages(search);
+		// 	promise.then(function(data) {
+		    	
+		//     	let jsonObject = JSON.parse(data.substr(0, data.length-1) + "]");
+		//     	$scope.thumbs = jsonObject;
+		//     	console.log('thumbs', $scope.thumbs);
+		//     	$scope.newJSON = data;
+		// 	});
+		// };
+		
 	}]);
 
 

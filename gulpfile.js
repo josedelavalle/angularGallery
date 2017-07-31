@@ -23,9 +23,9 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function () {
 	gulp.watch('assets/js/src/*.js', ['scripts']);
-	gulp.watch('assets/sass/*.scss', ['sass']);
+	gulp.watch('assets/sass/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['sass','scripts'], function() {
+gulp.task('default', ['sass','scripts','watch'], function() {
 
 });

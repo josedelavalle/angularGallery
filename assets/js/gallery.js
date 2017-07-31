@@ -271,7 +271,7 @@
 
 		// Main.
 			var $main = $('#main');
-			// console.log('length' + $main.find('article').length);
+			console.log('length' + $main.find('article').length);
 			// Thumbs.
 				$main.children('#imgGallery').each(function() {
 
@@ -309,41 +309,41 @@
 
 				});
 				
-			// // Poptrox.
+			// Poptrox.
 
-			// 	$main.poptrox({
-			// 		baseZIndex: 20000,
-			// 		caption: function($a) {
+				$main.poptrox({
+					baseZIndex: 20000,
+					caption: function($a) {
 
-			// 			var s = '';
+						var s = '';
 
-			// 			$a.nextAll().each(function() {
-			// 				s += this.outerHTML;
-			// 			});
+						$a.nextAll().each(function() {
+							s += this.outerHTML;
+						});
 
-			// 			return s;
+						return s;
 
-			// 		},
-			// 		fadeSpeed: 300,
-			// 		onPopupClose: function() { $body.removeClass('modal-active'); },
-			// 		onPopupOpen: function() { $body.addClass('modal-active'); },
-			// 		overlayOpacity: 0,
-			// 		popupCloserText: '',
-			// 		popupHeight: 150,
-			// 		popupLoaderText: '',
-			// 		popupSpeed: 300,
-			// 		popupWidth: 150,
-			// 		selector: '.thumb > a.image',
-			// 		usePopupCaption: true,
-			// 		usePopupCloser: true,
-			// 		usePopupDefaultStyling: false,
-			// 		usePopupForceClose: true,
-			// 		usePopupLoader: true,
-			// 		usePopupNav: true,
-			// 		windowMargin: 50
-			// 	});
+					},
+					fadeSpeed: 300,
+					onPopupClose: function() { $body.removeClass('modal-active'); },
+					onPopupOpen: function() { $body.addClass('modal-active'); },
+					overlayOpacity: 0,
+					popupCloserText: '',
+					popupHeight: 150,
+					popupLoaderText: '',
+					popupSpeed: 300,
+					popupWidth: 150,
+					selector: 'a.imagelink',
+					usePopupCaption: true,
+					usePopupCloser: true,
+					usePopupDefaultStyling: false,
+					usePopupForceClose: true,
+					usePopupLoader: true,
+					usePopupNav: true,
+					windowMargin: 50
+				});
 
-				// Hack: Set margins to 0 when 'xsmall' activates.
+				//Hack: Set margins to 0 when 'xsmall' activates.
 					skel
 						.on('-xsmall', function() {
 							$main[0]._poptrox.windowMargin = 50;

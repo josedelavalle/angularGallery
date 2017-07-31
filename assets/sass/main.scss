@@ -55,3 +55,57 @@
 	@import 'layout/header';
 	@import 'layout/main';
 	@import 'layout/footer';
+
+	
+	.modal-body {
+		padding: 0;
+		height: 100%;
+	}
+	#searchButton {
+		height: auto !important;
+		line-height: 1em;
+		white-space: normal;
+		padding: 20px 30px;
+	}
+	.modal-content {
+		height: 100%;
+	}
+	#mapContainer {
+		height: 100%;
+		#map {
+			min-height: 100%;
+		}
+	}
+	.userLocation {
+		//color: white;
+		padding-left: 10px;
+		padding-top: 5px;
+		font-size: 1.7em;
+	}
+	.panel {
+		margin-bottom: 0 !important;
+	}
+	.modal-dialog{
+	  //height: 400px;
+	  //width: auto !important;
+	  display: inline-block;
+	  //max-width: 375px;
+	  margin: auto;
+	  position: absolute;
+	  top:0;
+	  right: 0;
+	  bottom: 0;
+	  left: 0;
+	  text-align: center;
+	  z-index: 3;
+	  border: none;
+	  img {
+		margin: auto;
+		//height: 100%;
+
+	  }
+
+	}
+	.modal-content {
+		text-align: center;
+	}

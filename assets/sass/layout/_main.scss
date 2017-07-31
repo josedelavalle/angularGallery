@@ -32,7 +32,7 @@
 		  height: 100%;
 		  background: rgba(39,40,44,.9);
 		  color: #ffffff;
-		  z-index:9000;
+		  z-index:2;
 		  padding:10px;
 		  -webkit-transition: all 0.5s ease-out;
 		  -moz-transition: all 0.5s ease-out;
@@ -184,7 +184,7 @@
 
 			.thumb {
 				@include vendor('transition-delay', '#{$defaultDelay}');
-				height: calc(#{100vh / ($rows + $pad)} - #{_size(header) / $rows});
+				height: calc(100vh / ($rows + $pad)} - #{_size(header) / $rows});
 				min-height: $minHeight;
 				width: (100% / $columns);
 
