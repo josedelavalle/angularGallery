@@ -23,21 +23,21 @@
 		<!-- Header -->
 		<header id="header">
 			<div class="field">
-				<input ng-model="searchTerm" ng-click="searchTerm=''" id="inputBox" type="text" name="name" id="name" placeholder="PEEK" />
-				<input ng-click="go('person')" id="personButton" class="webOnly" type="submit" value="Person" />
+				<input ng-model="searchTerm" ng-click="searchTerm=''" id="inputBox" type="text" name="name" id="name" placeholder="Enter Place or Thing" />
+				<!-- <input ng-click="go('person')" id="personButton" class="webOnly" type="submit" value="Person" />
 				<input ng-click="go('place')" id="placeButton" class="webOnly" type="submit" value="Place" />
-				<input ng-click="go('thing')" id="thingButton" class="webOnly" type="submit" value="Thing" />
+				<input ng-click="go('thing')" id="thingButton" class="webOnly" type="submit" value="Thing" /> -->
 				<!-- <input ng-click="go('thing')" id="peekButton" class="mobileOnly" type="submit" value="Peek"> -->
-				<input ng-click="go()" id="moreButton" class="special" type="button" value="More">
-				<div class="webOnly">
+				<input ng-if="page_num==1" ng-click="go()" id="moreButton" class="special" type="button" value="Peek">
+				<input ng-if="page_num!=1" ng-click="go()" id="moreButton" class="special" type="button" value="More">
 					<a href="#footer">
 						<input id="mapButton" class="special" type="button" value="Map">
 					</a>
-				</div>
+				
 				<input ng-click="clear()" id="moreButton" class="webOnly" type="button" value="Clear">
 			</div>
 
-			<nav>
+			<nav class="webOnly">
 				<ul>
 					<li><a href="#footer" class="icon fa-info-circle">About</a></li>
 				</ul>
@@ -63,41 +63,9 @@
 
 		<footer id="footer" class="panel">
 			<div class="inner split">
-				<div>
-					<section>
-						<h2>Take a peek anywhere in the world</h2>
-							<p>This AngularJS web app makes HTTP request to query Google's API for the latitude and longitude of a user's entered location.  Coordinates are then passed to Flickr's API to retrieve photos from desired location. Alternative searches filter by a photo's tags and text.</p>
-					</section>
-					<section>
-						<div class="col-xs-6">
-							<h2>Follow me on ...</h2>
-							<ul class="icons">
-								<!--
-								<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li> -->
-								<li><a href="https://github.com/josedelavalle/angularGallery" class="icon fa-github"><span class="label">GitHub</span></a></li>
-	              <li><a href="http://twitter.com/slickwebstudio" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-								<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
-								<li><a href="https://www.linkedin.com/in/jose-delavalle-49aa7411a" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-								<li><a href="http://www.indeed.com/r/Jose-DeLavalle/a640d41721993815" class="icon fa-user"><span class="label">Indeed</span></a></li>
-								<li><a href="mailto:me@slickwebstudio.com" class="icon fa-envelope"><span class="label">Mail</span></a></li>
-							</ul>
-						</div>
-						<div class="col-xs-6">
-							<button ng-click="go()" id="searchButton" class="special" type="button">
-								Search {{userLocation.address}}
-							</button>
-						</div>
-					</section>
-					<div class="col-xs-12">
-					<p class="copyright">
-						<a class="icon" href="http://josedelavalle.com">Jose DeLavalle</a>&nbsp;&nbsp;&nbsp;<a href="http://slickwebstudio.com" class="icon fa-globe">&nbsp;Slick Web Studio</a>
-					</p>
-					</div>
-				</div>
-				<div>
-				your coordinates: {{userLocation.lat}},{{userLocation.lon}}
-
+			<div>
+			
+				<h2 class="mobileOnly">Take a peek anywhere in the world</h2>
 				<section id="mapContainer">
 					<div id="map" map-lazy-load="https://maps.google.com/maps/api/js">
 					  <ng-map center="{{userLocation.lat}}, {{userLocation.lon}}" zoom="8">
@@ -123,6 +91,50 @@
 					</form> -->
 				</section>
 				</div>
+				<div>
+					<div class="col-xs-12 mobileOnly padding-0">
+						<button ng-click="go()" class="searchButton special full-width" type="button">
+							Search {{userLocation.address}}
+						</button>
+					</div>
+					<section class="webOnly">
+						
+							<p class="appdescription">This AngularJS web app makes HTTP request to query Google's API for the latitude and longitude of a user's entered location.  Coordinates are then passed to Flickr's API to retrieve photos from desired location. Alternative searches filter by a photo's tags and text.</p>
+					</section>
+					<section>
+					<div class="col-xs-6 webOnly">
+						<button ng-click="go()" class="searchButton special" type="button">
+							Search {{userLocation.address}}
+						</button>
+					</div>
+					<div class="col-xs-6 padding-0">
+						<h2>Follow me on ...</h2>
+						<ul class="icons">
+							<!--
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li> -->
+							<li><a href="https://github.com/josedelavalle/angularGallery" class="icon fa-github"><span class="label">GitHub</span></a></li>
+           				   <li><a href="http://twitter.com/slickwebstudio" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<!-- <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li> -->
+							<li><a href="https://www.linkedin.com/in/jose-delavalle-49aa7411a" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="http://www.indeed.com/r/Jose-DeLavalle/a640d41721993815" class="icon fa-user"><span class="label">Indeed</span></a></li>
+							<li><a href="mailto:me@slickwebstudio.com" class="icon fa-envelope"><span class="label">Mail</span></a></li>
+						</ul>
+					</div>
+					<div class="col-xs-6 mobileOnly">
+						<button ng-click="clear()" class="searchButton full-width" type="button">
+							Clear Images
+						</button>
+					</div>
+						
+					</section>
+					<div class="col-xs-12">
+					<p class="copyright">
+						<a class="icon" href="http://josedelavalle.com">Jose DeLavalle</a>&nbsp;&nbsp;&nbsp;<a href="http://slickwebstudio.com" class="icon fa-globe">&nbsp;Slick Web Studio</a>
+					</p>
+					</div>
+				</div>
+				
 			</div>
 		</footer>
 
@@ -140,7 +152,7 @@
 	<script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
 	<script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 	<script src="assets/js/ng-map.min.js"></script>
-	<script src="http://maps.google.com/maps/api/js"></script>
+	<script src="http://maps.google.com/maps/api/js?key=AIzaSyAFzBg6EWivP2e2GR0DmXdosJKqJylV9AQ"></script>
 	<script src="assets/js/galleryController.js"></script>
 	
 	

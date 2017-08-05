@@ -14,7 +14,7 @@ var app = angular
 	                    },
 	                    function (err) {
 	                        deferred.reject(err);
-	                    });
+	                    }, {maximumAge:60000,timeout:5000});
 	            }
 
 	            return deferred.promise;
@@ -83,7 +83,7 @@ var app = angular
 		      }
 			});
 		};
-		$scope.searching = true;
+		$scope.searching = false;
 
 		$scope.goGetUserLocation = function() {
 			galleryFactory.getUserLocation().then(function(res) {
@@ -91,7 +91,7 @@ var app = angular
 				var usercoords = res.coords.latitude + "," + res.coords.longitude;
 				$scope.userLocation.lat = res.coords.latitude;
 				$scope.userLocation.lon = res.coords.longitude;
-
+				$scope.searching = false;
 				doReverseGeocode(usercoords);
 				getImagesByLoc($scope.page_num, res.coords.latitude, res.coords.longitude);
 			}).catch(function(e) {
@@ -100,6 +100,7 @@ var app = angular
 					console.log('got user location backup', res);
 					var usercoords = res.data.loc;
 					$scope.userCoords = usercoords;
+					$scope.searching = false;
 					doReverseGeocode(usercoords);
 					getImagesByLoc($scope.userLocation.address);
 				}).catch(function(e) {

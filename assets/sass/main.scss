@@ -56,25 +56,39 @@
 	@import 'layout/main';
 	@import 'layout/footer';
 
-	
+	.full-width {
+		width: 100% !important;
+	}
 	.modal-body {
 		padding: 0;
 		height: 100%;
 	}
-	#searchButton {
+	.padding-0 {
+		padding: 0 !important;
+	}
+	.appdescription {
+		margin-bottom: 1.5em !important;
+	}
+	.searchButton {
 		height: auto !important;
 		line-height: 1em;
 		white-space: normal;
 		padding: 20px 30px;
+		margin-bottom: 10px;
 	}
 	.modal-content {
 		height: 100%;
 	}
 	#mapContainer {
 		height: 100%;
+		margin-bottom: 20px;
 		#map {
 			min-height: 100%;
 		}
+	}
+	#inputBox {
+		width: auto;
+		max-width: 50%;
 	}
 	.userLocation {
 		//color: white;
