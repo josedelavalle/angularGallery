@@ -96,13 +96,16 @@ var app = angular
 				getImagesByLoc($scope.page_num, res.coords.latitude, res.coords.longitude);
 			}).catch(function(e) {
 				console.log('error getting user location', e);
-				pdFactory.getUserLocationBackup().then(function(res) {
+				galleryFactory.getUserLocationBackup().then(function(res) {
 					console.log('got user location backup', res);
 					var usercoords = res.data.loc;
 					$scope.userCoords = usercoords;
 					$scope.searching = false;
 					doReverseGeocode(usercoords);
-					getImagesByLoc($scope.userLocation.address);
+					var x = usercoords.split(',');
+					$scope.userLocation.lat = x[0];
+					$scope.userLocation.lon = x[1];
+					getImagesByLoc($scope.page_num, x[0], x[1]);
 				}).catch(function(e) {
 					console.log('error getting user location backup', e);
 				});
