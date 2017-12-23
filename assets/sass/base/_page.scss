@@ -1,8 +1,4 @@
-///
-/// Multiverse by Pixelarity
-/// pixelarity.com @pixelarity
-/// License: pixelarity.com/license
-///
+
 
 /* Basic */
 
@@ -20,6 +16,12 @@
 		@include breakpoint(xsmall) {
 			html, body {
 				min-width: 320px;
+			}
+			.modal-dialog, .modal-content {
+				margin: 0 auto !important;
+				img {
+					margin-top: 10px;
+				}
 			}
 		}
 	
@@ -47,4 +49,8 @@
 				}
 			}
 
+	}
+
+	.display-flex {
+		display: flex;
 	}

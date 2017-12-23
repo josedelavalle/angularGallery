@@ -46,8 +46,30 @@ var app = angular
 		$scope.cancel = function () {
 			$uibModalInstance.dismiss();
 		};
+
+		$scope.goNext = function(e) {
+			e.stopPropagation();
+			$scope.currentIndex++;
+			if ($scope.currentIndex >= $scope.items.length) {
+				$scope.currentIndex = 0;
+			}
+			console.log(e, $scope.currentIndex);
+		};
+		$scope.goPrev = function(e) {
+			e.stopPropagation();
+			$scope.currentIndex--;
+			if ($scope.currentIndex < 0) {
+				$scope.currentIndex = $scope.items.length - 1;
+			}
+			console.log(e, $scope.currentIndex);
+		};
+
+		$scope.$on('more-clicked', function() {
+			console.log('more clicked event heard')
+			$scope.cancel();
+		});
 	}])
-	.controller('galleryController', ['$scope', '$http', 'galleryFactory', 'NgMap', '$uibModal', function($scope, $http, galleryFactory, NgMap, $uibModal) {
+	.controller('galleryController', ['$scope', '$http', 'galleryFactory', 'NgMap', '$uibModal', '$window', function($scope, $http, galleryFactory, NgMap, $uibModal, $window) {
 		
 		// $scope.thumbs = {};
 		$scope.defaultSearch = "technology";
@@ -56,6 +78,16 @@ var app = angular
 		$scope.newJSON = '[';
 		$scope.userLocation = {};
 		$scope.thumbs = [];
+		
+		angular.element($window).bind("scroll", function() {
+		    var windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+		    var body = document.body, html = document.documentElement;
+		    var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
+		    windowBottom = windowHeight + window.pageYOffset;
+		    if (windowBottom >= docHeight) {
+		        $scope.go(true);
+		    }
+		});
 
 		$('#inputBox').bind("enterKey",function(e){
 		   $scope.go('person');
@@ -68,7 +100,7 @@ var app = angular
 		});
 
 		$scope.openModal = function (ndx) {
-			console.log('openModal');
+			
 			var modalInstance = $uibModal.open({
       		  templateUrl: '/modal.html',
 		      controller: 'modalController',
@@ -159,10 +191,14 @@ var app = angular
 		var getImagesByTerm = function (page_num, searchTerm) {
 			console.log('search for ', searchTerm);
 			galleryFactory.getImagesByTerm(page_num, searchTerm).then(function(res) {
-				console.log('got images', res.data);
-				for (var i = 0; i < res.data.photos.photo.length; i++) {
-					var item = res.data.photos.photo[i];
-					$scope.thumbs.push(item);
+				console.log('got images', res.data.photos.photo.length);
+				if (res.data.photos.photo.length == 0) {
+					alert('nothing found');
+				} else {
+					for (var i = 0; i < res.data.photos.photo.length; i++) {
+						var item = res.data.photos.photo[i];
+						$scope.thumbs.push(item);	
+					}
 				}
 				$scope.searching = false;
 
@@ -174,10 +210,14 @@ var app = angular
 		var getImagesByLoc = function (page_num, lat, lon) {
 			console.log('getting images', Date());
 			galleryFactory.getImagesByLoc(page_num, lat, lon).then(function(res) {
-				console.log('got images', res.data);
-				for (var i = 0; i < res.data.photos.photo.length; i++) {
-					var item = res.data.photos.photo[i];
-					$scope.thumbs.push(item);
+				console.log('got images', res.data.photos.photo.length);
+				if (res.data.photos.photo.length == 0) {
+					alert('nothing found');
+				} else {
+					for (var i = 0; i < res.data.photos.photo.length; i++) {
+						var item = res.data.photos.photo[i];
+						$scope.thumbs.push(item);	
+					}
 				}
 				$scope.searching = false;
 
@@ -191,7 +231,10 @@ var app = angular
 			$scope.page_num = 1;
 		};
 
-		$scope.go = function () {
+		$scope.go = function (ismore) {
+			$scope.$emit('more-clicked');
+			console.log($scope);
+			if (!ismore) $scope.clear();
 			$('#closer').click();
 			$scope.searching = true;
 			console.log($scope.searchTerm, $scope.userLocation.address);
@@ -204,7 +247,7 @@ var app = angular
 			}
 			
 			//scroll down to view newly retrieved data
-			$('html, body').animate({scrollTop:$(document).height()}, 1000);
+			if (ismore) $('html, body').animate({scrollTop:$(document).height()}, 1000);
 		};
 
 		NgMap.getMap().then(function(map) {

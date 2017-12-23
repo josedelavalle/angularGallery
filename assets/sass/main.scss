@@ -11,115 +11,226 @@
 	License: pixelarity.com/license
 */
 
-	@include skel-breakpoints((
-		xlarge: '(max-width: 1680px)',
-		large: '(max-width: 1280px)',
-		medium: '(max-width: 980px)',
-		small: '(max-width: 736px)',
-		xsmall: '(max-width: 480px)'
-	));
+@include skel-breakpoints((
+	xlarge: '(max-width: 1680px)',
+	large: '(max-width: 1280px)',
+	medium: '(max-width: 980px)',
+	small: '(max-width: 736px)',
+	xsmall: '(max-width: 480px)'
+));
 
-	@include skel-layout((
-		reset: 'full',
-		boxModel: 'border'
-	));
+@include skel-layout((
+	reset: 'full',
+	boxModel: 'border'
+));
 
-	@include keyframes(spinner) {
-		0% {
-			@include vendor('transform', 'rotate(0deg)');
-		}
-
-		100% {
-			@include vendor('transform', 'rotate(359deg)');
-		}
+@include keyframes(spinner) {
+	0% {
+		@include vendor('transform', 'rotate(0deg)');
 	}
+
+	100% {
+		@include vendor('transform', 'rotate(359deg)');
+	}
+}
 
 // Base.
 
-	@import 'base/page';
-	@import 'base/typography';
+@import 'base/page';
+@import 'base/typography';
 
 // Component.
 
-	@import 'components/button';
-	@import 'components/form';
-	@import 'components/icon';
-	@import 'components/list';
-	@import 'components/table';
-	@import 'components/panel';
-	@import 'components/poptrox-popup';
+@import 'components/button';
+@import 'components/form';
+@import 'components/icon';
+@import 'components/list';
+@import 'components/table';
+@import 'components/panel';
+@import 'components/poptrox-popup';
 
 // Layout.
 
-	@import 'layout/wrapper';
-	@import 'layout/header';
-	@import 'layout/main';
-	@import 'layout/footer';
+@import 'layout/wrapper';
+@import 'layout/header';
+@import 'layout/main';
+@import 'layout/footer';
 
-	.full-width {
-		width: 100% !important;
+.full-width {
+	width: 100% !important;
+}
+.modal-body {
+	padding: 0;
+	height: 100%;
+}
+.padding-0 {
+	padding: 0 !important;
+}
+.appdescription {
+	margin-bottom: 1.5em !important;
+}
+.searchButton {
+	height: auto !important;
+	line-height: 1em;
+	white-space: normal;
+	padding: 20px 30px;
+	margin-bottom: 10px;
+}
+.modal-content {
+	height: 100%;
+}
+#moreButton {
+	max-width: 24vw;
+}
+#mapContainer {
+	height: 100%;
+	margin-bottom: 20px;
+	#map {
+		min-height: 100%;
 	}
-	.modal-body {
-		padding: 0;
-		height: 100%;
-	}
-	.padding-0 {
-		padding: 0 !important;
-	}
-	.appdescription {
-		margin-bottom: 1.5em !important;
-	}
-	.searchButton {
-		height: auto !important;
-		line-height: 1em;
-		white-space: normal;
-		padding: 20px 30px;
+}
+#inputBox {
+	width: auto;
+	//max-width: 50%;
+	//min-width: 49vw;
+}
+.userLocation {
+	//color: white;
+	padding-left: 10px;
+	padding-top: 5px;
+	font-size: 1.7em;
+}
+.panel {
+	margin-bottom: 0 !important;
+}
+.modal-dialog {
+  display: inline-block;
+  min-width: 50%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  z-index: 3;
+  border: none;
+  img {
+	margin: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 90%;
+  }
+
+}
+.modal-content {
+	text-align: center;
+	box-shadow: none !important;
+	border: 0;
+}
+#close-button {
+	position: absolute;
+	font-size: 30px !important;
+	top: 20px;
+    right: 20px;
+    padding: 10px;
+    color: #eeeeee;
+    background-color: rgba(10,10,10,0.6);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    transition: all .5s ease-in-out;
+    &:hover {
+    	color: white;
+		cursor: pointer;
+    }
+}
+#modal-image-container {
+	position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vw;
+    width: 100vw;
+    padding-top: 0px;
+    background-repeat: no-repeat;
+    background-size: contain;
+	background-position: top center;
+	transition: all 1s ease-in-out;
+}
+#image-info {
+	position: absolute;
+	background: rgba(10,10,10,0.75);
+	color: #fff;
+	width: 100%;
+	bottom: 20px;
+	min-height: 100px;
+	height: auto;
+	padding: 5px 50px;
+	.title {
+		font-size: 30px;
+		line-height: 1.2em;
 		margin-bottom: 10px;
+		word-break: break-all;
 	}
-	.modal-content {
-		height: 100%;
+	.description {
+		font-size: 15px;
 	}
-	#mapContainer {
-		height: 100%;
-		margin-bottom: 20px;
-		#map {
-			min-height: 100%;
-		}
+	.fa {
+		position: absolute;
+		top: 50%;
+		margin-top: -20px;
+		color: #fff;
+		font-size: 30px;
+		padding: 10px;
+		cursor: pointer;
 	}
-	#inputBox {
-		width: auto;
-		max-width: 50%;
+	.prev-arrow {
+		left: 5px;
 	}
-	.userLocation {
-		//color: white;
-		padding-left: 10px;
-		padding-top: 5px;
-		font-size: 1.7em;
+	.next-arrow {
+		right: 5px;
 	}
-	.panel {
-		margin-bottom: 0 !important;
-	}
-	.modal-dialog{
-	  //height: 400px;
-	  //width: auto !important;
-	  display: inline-block;
-	  //max-width: 375px;
-	  margin: auto;
-	  position: absolute;
-	  top:0;
-	  right: 0;
-	  bottom: 0;
-	  left: 0;
-	  text-align: center;
-	  z-index: 3;
-	  border: none;
-	  img {
+
+}
+.modal-backdrop.in {
+	opacity: 0.9 !important;
+}
+.modal-dialog {
+	margin-top: 0;
+}
+
+@include breakpoint(small) {
+	#modal-image-container {
+		position: absolute;
+		height: 100vh;
+		width: 100vw;
+		padding-top: 58px;
 		margin: auto;
-		//height: 100%;
-
-	  }
-
+		background-size: contain;
+		background-position: center center;
+		background-repeat: no-repeat;
 	}
-	.modal-content {
-		text-align: center;
+	#close-button {
+		display: none;
 	}
+	.modal-dialog {
+		margin: 0 !important;
+	}
+}
+@include breakpoint(xsmall) {
+	#modal-image-container {
+		position: absolute;
+		height: 100vh;
+		width: 100vw;
+		padding-top: 58px;
+		margin: auto;
+		background-size: contain;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
+	#close-button {
+		display: none;
+	}
+	.modal-dialog {
+		margin: 0 !important;
+	}
+}

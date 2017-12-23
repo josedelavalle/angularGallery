@@ -112,7 +112,7 @@
 			@include vendor('transform', 'translateY(0)');
 			bottom: auto;
 			height: _size(header);
-			padding: 0 1em;
+			padding: 2px;
 			top: 0;
 
 			body.loading & {
