@@ -69,7 +69,7 @@ var app = angular
 			$scope.cancel();
 		});
 	}])
-	.controller('galleryController', ['$scope', '$http', 'galleryFactory', 'NgMap', '$uibModal', '$window', function($scope, $http, galleryFactory, NgMap, $uibModal, $window) {
+	.controller('galleryController', ['$scope', '$http', '$timeout', 'galleryFactory', 'NgMap', '$uibModal', '$window', function($scope, $http, $timeout, galleryFactory, NgMap, $uibModal, $window) {
 		
 		// $scope.thumbs = {};
 		$scope.defaultSearch = "technology";
@@ -78,14 +78,16 @@ var app = angular
 		$scope.newJSON = '[';
 		$scope.userLocation = {};
 		$scope.thumbs = [];
-		
+		console.log($window)
 		angular.element($window).bind("scroll", function() {
 		    var windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
 		    var body = document.body, html = document.documentElement;
 		    var docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight,  html.scrollHeight, html.offsetHeight);
 		    windowBottom = windowHeight + window.pageYOffset;
 		    if (windowBottom >= docHeight) {
-		        $scope.go(true);
+		        if ($window.innerWidth > 800 && $scope.thumbs && $scope.page_num > 0) {
+		        	$scope.go(true);
+		        }
 		    }
 		});
 
@@ -227,12 +229,15 @@ var app = angular
 		};
 
 		$scope.clear = function() {
+			console.log('clear');
 			$scope.thumbs = [];
-			$scope.page_num = 1;
+			$scope.page_num = 0;
+			//$('#closer').click();
 		};
 
 		$scope.go = function (ismore) {
-			$scope.$emit('more-clicked');
+			//$scope.$emit('more-clicked');
+			
 			console.log($scope);
 			if (!ismore) $scope.clear();
 			$('#closer').click();
@@ -247,7 +252,13 @@ var app = angular
 			}
 			
 			//scroll down to view newly retrieved data
-			if (ismore) $('html, body').animate({scrollTop:$(document).height()}, 1000);
+			
+			 if (ismore) {
+			// 	$timeout(function() {
+			 		$('html, body').animate({scrollTop:$(document).height()-100}, 1000);
+			// 	}, 1000);
+				
+			 }
 		};
 
 		NgMap.getMap().then(function(map) {

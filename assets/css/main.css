@@ -724,7 +724,7 @@ table {
   background: rgba(36, 38, 41, 0.975);
   bottom: 4em;
   left: 0;
-  max-height: calc(80vh - 4em);
+  max-height: calc(100vh - 4em);
   overflow-y: auto;
   position: fixed;
   width: 100%;
@@ -1285,7 +1285,7 @@ body {
     -ms-transition-delay: 2.525s;
     transition-delay: 2.525s;
     height: calc(100vh / ($rows + $pad));
-    min-height: 20em;
+    min-height: 22em;
     width: 25%; }
     #main .thumb:nth-child(1) {
       -moz-transition-delay: 0.65s;
@@ -1354,7 +1354,7 @@ body {
       -ms-transition-delay: 2.075s;
       transition-delay: 2.075s;
       height: calc(100vh / ($rows + $pad));
-      min-height: 20em;
+      min-height: 22em;
       width: 33.33333%; }
       #main .thumb:nth-child(1) {
         -moz-transition-delay: 0.65s;
@@ -1654,6 +1654,10 @@ body {
 .modal-dialog {
   margin-top: 0; }
 
+#inputBox {
+  min-width: 20em;
+  width: auto; }
+
 @media screen and (max-width: 736px) {
   #modal-image-container {
     position: absolute;
@@ -1664,12 +1668,20 @@ body {
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat; }
+  #inputBox {
+    min-width: 250px; }
   #close-button {
     display: none; }
   .modal-dialog {
-    margin: 0 !important; } }
+    margin: 0 !important; }
+  #header .field {
+    text-align: center; } }
 
 @media screen and (max-width: 480px) {
+  #header .field {
+    text-align: center; }
+  #inputBox {
+    min-width: unset; }
   #modal-image-container {
     position: absolute;
     height: 100vh;

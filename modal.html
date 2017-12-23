@@ -7,7 +7,7 @@
 </style>
 
 <div ng-click="cancel()" class="modal-body" id="modal-body">
-	<div id="modal-image-container"  style="background-image: url('{{items[currentIndex].url_m.replace('.jpg', '_c.jpg')}}">
+	<div id="modal-image-container"  style="background-image: url('{{items[currentIndex].url_m}}')">
 	</div>
     <div id="close-button" class="fa fa-close"></div>
     <div id="image-info">
@@ -15,7 +15,7 @@
 			{{items[currentIndex].title}}
 		</div>
 		<div class="description">
-			{{items[currentIndex].description._content}}
+			{{items[currentIndex].description._content || 'No Description Provided'}}
 		</div>
 		<div class="prev-arrow fa fa-2x fa-chevron-left" ng-click="goPrev($event)"></div>
 		<div class="next-arrow fa fa-2x fa-chevron-right" ng-click="goNext($event)"></div>

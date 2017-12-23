@@ -197,6 +197,10 @@
 .modal-dialog {
 	margin-top: 0;
 }
+#inputBox {
+	min-width: 20em;
+	width: auto;
+}
 
 @include breakpoint(small) {
 	#modal-image-container {
@@ -209,14 +213,30 @@
 		background-position: center center;
 		background-repeat: no-repeat;
 	}
+	#inputBox {
+		min-width: 250px;
+	}
 	#close-button {
 		display: none;
 	}
 	.modal-dialog {
 		margin: 0 !important;
 	}
+	#header {
+		.field {
+			text-align: center;
+		}
+	}
 }
 @include breakpoint(xsmall) {
+	#header {
+		.field {
+			text-align: center;
+		}
+	}
+	#inputBox {
+		min-width: unset;
+	}
 	#modal-image-container {
 		position: absolute;
 		height: 100vh;
