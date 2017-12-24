@@ -142,6 +142,16 @@ var app = angular
 					getImagesByLoc($scope.page_num, x[0], x[1]);
 				}).catch(function(e) {
 					console.log('error getting user location backup', e);
+					$scope.searchTerm = "New York City";
+					//getImagesByTerm($scope.page_num, $scope.searchTerm);
+					var usercoords = "40.7128,-74.0060";
+					$scope.userCoords = usercoords;
+					$scope.searching = false;
+					doReverseGeocode(usercoords);
+					var x = usercoords.split(',');
+					$scope.userLocation.lat = x[0];
+					$scope.userLocation.lon = x[1];
+					getImagesByLoc($scope.page_num, x[0], x[1]);
 				});
 			});
 		}
